@@ -26,7 +26,7 @@ class ThreadsTest extends TestCase
 
     public function testShow()
     {
-        $this->get(route('threads.show', $this->thread))
+        $this->get(route('threads.show', [$this->thread->channel, $this->thread]))
             ->assertSee($this->thread->title);
     }
 
@@ -34,7 +34,7 @@ class ThreadsTest extends TestCase
     {
         $reply = Reply::factory()->create(['thread_id' => $this->thread->id]);
 
-        $this->get(route('threads.show', $this->thread))
+        $this->get(route('threads.show', [$this->thread->channel, $this->thread]))
             ->assertSee($reply->body);
     }
 }

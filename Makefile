@@ -6,3 +6,6 @@ tinker:
 	php artisan tinker
 phpunit:
 	vendor/phpunit/phpunit/phpunit
+clear:
+	php artisan cache:clear
+	php artisan route:cache

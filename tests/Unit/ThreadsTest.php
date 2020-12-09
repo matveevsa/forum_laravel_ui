@@ -26,7 +26,10 @@ class ThreadsTest extends TestCase
     {
         $thread = create(Thread::class);
 
-        $this->assertEquals('/threads/' . $thread->channel->slug . '/' . $thread->id, route('threads.show', $thread));
+        $this->assertEquals(
+            url()->current() . "/threads/{$thread->channel->slug}/{$thread->id}",
+            route('threads.show', [$thread->channel, $thread])
+        );
     }
 
     public function testHasCreator()

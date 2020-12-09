@@ -22,11 +22,12 @@ class ParticipateInFormTest extends TestCase
     {
         $this->be($user = create(User::class));
         $thread = create(Thread::class);
+        $channel = $thread->channel;
 
         $reply = make(Reply::class, ['user_id' => $user->id]);
         $this->post(route('replies.store', $thread), $reply->toArray());
 
-        $this->get(route('threads.show', $thread))
+        $this->get(route('threads.show', [$channel, $thread]))
             ->assertSee($reply->body);
     }
 }
