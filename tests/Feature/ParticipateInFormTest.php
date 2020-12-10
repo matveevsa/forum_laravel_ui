@@ -20,14 +20,23 @@ class ParticipateInFormTest extends TestCase
 
     public function testAuthenticatedUserMayParticipateInForumThreads()
     {
-        $this->be($user = create(User::class));
+        $this->signIn();
         $thread = create(Thread::class);
-        $channel = $thread->channel;
+        $reply = make(Reply::class);
 
-        $reply = make(Reply::class, ['user_id' => $user->id]);
         $this->post(route('replies.store', $thread), $reply->toArray());
 
-        $this->get(route('threads.show', [$channel, $thread]))
+        $this->get(route('threads.show', [$thread->channel, $thread]))
             ->assertSee($reply->body);
+    }
+
+    public function testReplyRequiresBody()
+    {
+        $this->signIn();
+        $thread = create(Thread::class);
+        $reply = make(Reply::class, ['body' => null]);
+
+        $this->post(route('replies.store', $thread), $reply->toArray())
+            ->assertSessionHasErrors('body');
     }
 }
