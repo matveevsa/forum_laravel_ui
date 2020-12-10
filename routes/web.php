@@ -8,12 +8,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Auth::routes();
+
 Route::resource('threads', ThreadsController::class)->except(['show']);
+Route::get('threads/{channel}', [ThreadsController::class, 'index']);
 Route::get('threads/{channel:slug}/{thread:id}', [ThreadsController::class, 'show'])
     ->name('threads.show');
 
 Route::post('/threads/{thread}/replies', [RepliesController::class, 'store'])
     ->name('replies.store');
-Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
