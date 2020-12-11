@@ -31,17 +31,17 @@ class ThreadsController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $data = $this->validate($request, [
             'title' => 'required',
             'body' => 'required',
             'channel_id' => 'required|exists:channels,id',
         ]);
 
-        $data = $request->all();
+        $data['user_id'] = auth()->id();
+
         $thread = Thread::create($data);
 
-
-        return redirect(route('threads.show', $thread));
+        return redirect(route('threads.show', [$thread->channel, $thread]));
     }
 
     public function create()

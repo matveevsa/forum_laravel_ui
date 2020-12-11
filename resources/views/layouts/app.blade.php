@@ -38,6 +38,9 @@
                                 Threads
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/threads/create">New Thread</a>
+                        </li>
                         <li class="dropdown">
                             <a
                                 class="nav-link dropdown-toggle"
@@ -51,7 +54,12 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                     @foreach (App\Models\Channel::all() as $channel)
-                                        <a class="dropdown-item" href="/threads/{{ $channel->slug }}">{{ $channel->name }}</a>
+                                        <a
+                                            class="dropdown-item"
+                                            href="/threads/{{ $channel->slug }}"
+                                        >
+                                            {{ $channel->name }}
+                                        </a>
                                     @endforeach
                             </div>
                         </li>
