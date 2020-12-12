@@ -6,7 +6,6 @@
         <div class="col-md-8">
             <div class="card card">
                 <div class="card-header">{{ __('Dashboard') }}</div>
-
                 <div class="card-body">
                     @foreach ($threads as $thread)
                     <article>
