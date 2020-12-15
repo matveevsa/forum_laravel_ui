@@ -11,9 +11,21 @@ class Thread extends Model
 
     protected $guarded = [];
 
+    protected static function booted()
+    {
+        static::addGlobalScope('replyCount', function ($builder) {
+            $builder->withCount('replies');
+        });
+    }
+
     public function replies()
     {
         return $this->hasMany(Reply::class);
+    }
+
+    public function addReply($reply)
+    {
+        $this->replies()->create($reply);
     }
 
     public function creator()
@@ -24,11 +36,6 @@ class Thread extends Model
     public function channel()
     {
         return $this->belongsTo(Channel::class);
-    }
-
-    public function addReply($reply)
-    {
-        $this->replies()->create($reply);
     }
 
     public function scopeFilter($query, $filters)

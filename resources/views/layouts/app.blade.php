@@ -18,8 +18,15 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>
+        body {padding-bottom: 100px;}
+        .level {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
 </head>
-<body style="padding-bottom: 100px;">
+<body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -56,6 +63,10 @@
                                     My Threads
                                     </a>
                                 @endif
+
+                                <a href="/threads?popular=1" class="dropdown-item">
+                                    Popular All Time
+                                </a>
                             </div>
                         </li>
                         <li class="nav-item">
