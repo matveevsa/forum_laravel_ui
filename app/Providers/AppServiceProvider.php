@@ -26,7 +26,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::composer('*', fn($view) => $view->with('channels', Channel::all()));
+        View::composer('*', function ($view) {
+            $channels = \Cache::rememberForever('channels', fn () => Channel::all());
+            $view->with('channels', $channels);
+        });
         Paginator::useBootstrap();
     }
 }
