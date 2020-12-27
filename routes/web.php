@@ -12,10 +12,12 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::resource('threads', ThreadsController::class)->except(['show']);
+Route::resource('threads', ThreadsController::class)->except(['show', 'destroy']);
 Route::get('threads/{channel}', [ThreadsController::class, 'index']);
 Route::get('threads/{channel:slug}/{thread:id}', [ThreadsController::class, 'show'])
     ->name('threads.show');
+Route::delete('threads/{channel:slug}/{thread:id}', [ThreadsController::class, 'destroy'])
+    ->name('threads.destroy');
 
 Route::post('threads/{thread}/replies', [RepliesController::class, 'store'])
     ->name('replies.store');

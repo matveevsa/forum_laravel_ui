@@ -32,6 +32,30 @@ class ThreadsTest extends TestCase
             ->assertSee($this->thread->title);
     }
 
+    public function testGuestCannotDeleteThread()
+    {
+        $thread = create(Thread::class);
+
+        $response = $this->delete(route('threads.destroy', [$thread->channel, $thread]));
+
+        $response->assertRedirect('login');
+    }
+
+    public function testDelete()
+    {
+        $this->signIn();
+
+        $thread = create(Thread::class);
+        $reply = create(Reply::class, ['thread_id' => $thread->id]);
+
+        $response = $this->json('DELETE', route('threads.destroy', [$thread->channel, $thread]));
+
+        $response->assertStatus(204);
+
+        $this->assertDatabaseMissing('threads', ['id' => $thread->id]);
+        $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+    }
+
     public function testRepliesThatAssociatedWithThread()
     {
         $reply = Reply::factory()->create(['thread_id' => $this->thread->id]);

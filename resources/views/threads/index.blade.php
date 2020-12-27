@@ -4,27 +4,25 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-                <div class="card-body">
-                    @foreach ($threads as $thread)
-                    <article>
-                        <div class="level">
-                            <h4>
+                @foreach ($threads as $thread)
+                    <div class="card mb-3">
+                        <div class="card-header bg-white">
+                            <div class="level">
+                                <h4>
+                                    <a href="{{ route('threads.show', [$thread->channel, $thread]) }}">
+                                        {{ $thread->title }}
+                                    </a>
+                                </h4>
                                 <a href="{{ route('threads.show', [$thread->channel, $thread]) }}">
-                                    {{ $thread->title }}
+                                    {{ $thread->replies_count }} {{ Str::plural('reply', $thread->replies_count) }}
                                 </a>
-                            </h4>
-                            <a href="{{ route('threads.show', [$thread->channel, $thread]) }}">
-                                {{ $thread->replies_count }} {{ Str::plural('reply', $thread->replies_count) }}
-                            </a>
+                            </div>
                         </div>
-                        <div class="body">{{ $thread->body }}</div>
-
-                        <hr>
-                    </article>
-                    @endforeach
-                </div>
+                        <div class="card-body">
+                            <div class="body">{{ $thread->body }}</div>
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>

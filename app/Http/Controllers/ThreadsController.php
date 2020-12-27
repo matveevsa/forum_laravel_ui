@@ -54,6 +54,17 @@ class ThreadsController extends Controller
         return view('threads.create');
     }
 
+    public function destroy($channel, Thread $thread)
+    {
+        $thread->delete();
+
+        if (request()->wantsJson()) {
+            return response([], 204);
+        }
+
+        return redirect(route('profile.show', auth()->user()));
+    }
+
     public function getThreads(Channel $channel, ThreadFilters $filters)
     {
         $threads = Thread::latest()->filter($filters);
