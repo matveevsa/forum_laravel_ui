@@ -36,16 +36,19 @@ class ThreadsTest extends TestCase
     {
         $thread = create(Thread::class);
 
-        $response = $this->delete(route('threads.destroy', [$thread->channel, $thread]));
+        $this->delete(route('threads.destroy', [$thread->channel, $thread]))
+            ->assertRedirect('/login');
 
-        $response->assertRedirect('login');
+        $this->signIn();
+        $this->delete(route('threads.destroy', [$thread->channel, $thread]))
+        ->assertStatus(403);
     }
 
-    public function testDelete()
+    public function testAuthorizeUserCanDeleteThreads()
     {
         $this->signIn();
 
-        $thread = create(Thread::class);
+        $thread = create(Thread::class, ['user_id' => auth()->id()]);
         $reply = create(Reply::class, ['thread_id' => $thread->id]);
 
         $response = $this->json('DELETE', route('threads.destroy', [$thread->channel, $thread]));

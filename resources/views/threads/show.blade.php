@@ -11,13 +11,13 @@
                             <a href="{{ route('profile.show', $thread->creator) }}">{{ $thread->creator->name }}</a> posted:
                             {{ $thread->title }}
                         </dvi>
-                        @auth
+                        @can ('delete', $thread)
                             <form action="{{ route('threads.destroy', [$thread->channel, $thread]) }}" method="POST">
                                 @csrf
                                 @method('delete')
                                 <button class="btn btn-link">Delete Thread</button>
                             </form>
-                        @endauth
+                        @endcan
                     </div>
                 </div>
                 <div class="card-body">
