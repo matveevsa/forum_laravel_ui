@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Filters\ThreadFilters;
 use App\Models\Channel;
 use App\Models\Thread;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class ThreadsController extends Controller
@@ -57,14 +56,15 @@ class ThreadsController extends Controller
     public function destroy($channel, Thread $thread)
     {
         $this->authorize('delete', $thread);
-
+        
         $thread->delete();
 
         if (request()->wantsJson()) {
             return response([], 204);
         }
 
-        return redirect(route('profile.show', auth()->user()));
+
+        return redirect(route('threads.index'));
     }
 
     public function getThreads(Channel $channel, ThreadFilters $filters)

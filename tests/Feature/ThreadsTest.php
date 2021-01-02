@@ -41,7 +41,7 @@ class ThreadsTest extends TestCase
 
         $this->signIn();
         $this->delete(route('threads.destroy', [$thread->channel, $thread]))
-        ->assertStatus(403);
+            ->assertStatus(403);
     }
 
     public function testAuthorizeUserCanDeleteThreads()
@@ -51,9 +51,8 @@ class ThreadsTest extends TestCase
         $thread = create(Thread::class, ['user_id' => auth()->id()]);
         $reply = create(Reply::class, ['thread_id' => $thread->id]);
 
-        $response = $this->json('DELETE', route('threads.destroy', [$thread->channel, $thread]));
-
-        $response->assertStatus(204);
+        $this->json('DELETE', route('threads.destroy', [$thread->channel, $thread]))
+            ->assertStatus(204);
 
         $this->assertDatabaseMissing('threads', ['id' => $thread->id]);
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);

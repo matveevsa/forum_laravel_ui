@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\RecordActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use ReflectionClass;
 
 class Thread extends Model
 {
     use HasFactory;
+    use RecordActivity;
 
     protected $guarded = [];
 
@@ -45,5 +48,10 @@ class Thread extends Model
     public function scopeFilter($query, $filters)
     {
         return $filters->apply($query);
+    }
+
+    public function path()
+    {
+        return "/threads/{$this->channel->slug}/{$this->id}";
     }
 }
