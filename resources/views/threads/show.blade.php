@@ -50,7 +50,7 @@
             <div class="card mb-3">
                 <div class="card-body">
                    This thread was published {{ $thread->created_at->diffForHumans() }} by
-                   <a href="#">{{ $thread->creator->name }}</a>, and currently has {{ $thread->replies_count }} {{ Str::plural('comment', $thread->replies_count) }}.
+                   <a href="{{ route('profile.show', $thread->creator) }}">{{ $thread->creator->name }}</a>, and currently has {{ $thread->replies_count }} {{ Str::plural('comment', $thread->replies_count) }}.
                 </div>
             </div>
         </div>

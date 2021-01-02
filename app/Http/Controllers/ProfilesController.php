@@ -10,8 +10,6 @@ class ProfilesController extends Controller
 {
     public function show(User $user)
     {
-        $activities = $this->getActivty($user);
-
         return view('profile.show', [
             'profileUser' => $user,
             'activities' => Activity::feed($user)
