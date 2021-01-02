@@ -4,33 +4,16 @@
     <div class="container">
         <div class="row justify-content-md-center">
             <div class="col-md-8">
-                <div class="jumbotron">
-                    <h1>
+                    <h1 class="pb-2 mt-4 mb-2 border-bottom">
                         {{ $profileUser->name }}
                     </h1>
-                </div>
-                @foreach ($threads as $thread)
-                    <div class="card mb-3">
-                        <div class="card-header">
-                            <div class="level">
-                                <span>
-                                    <a href="{{ route('profile.show', $thread->creator) }}">
-                                        {{ $thread->creator->name }}</a> posted:
-                                    <a href="{{ route('threads.show', [$thread->channel, $thread]) }}">
-                                        {{ $thread->title }}
-                                    </a>
-                                </span>
-                                <span>
-                                    {{ $thread->created_at->diffForHumans() }}
-                                </span>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                        {{ $thread->body }}
-                        </div>
-                    </div>
+                @foreach ($activities as $date => $activity)
+                    <h4 class="pb-2 mt-4 mb-2">{{ $date }}</h4>
+                    @foreach ($activity as $record)
+                        @include ("profile.activities.{$record->type}", ["activity" => $record])
+                    @endforeach
                 @endforeach
-                {{ $threads->links() }}
+                {{-- {{ $threads->links() }} --}}
             </div>
         </div>
     </div>
