@@ -39,4 +39,26 @@ class ParticipateInFormTest extends TestCase
         $this->post(route('replies.store', $thread), $reply->toArray())
             ->assertSessionHasErrors('body');
     }
+
+    public function testUnauthorizeUsersCannotDeleteReplies()
+    {
+        $reply = create(Reply::class);
+
+        $this->delete("/replies/{$reply->id}")
+            ->assertRedirect('login');
+
+        $this->signIn()
+            ->delete("/replies/{$reply->id}")
+            ->assertStatus(403);
+    }
+
+    public function testAuthorizeUsersCanDeleteReplies()
+    {
+        $this->signIn();
+
+        $reply = create(Reply::class, ['user_id' => auth()->id()]);
+
+        $this->delete("/replies/{$reply->id}")->assertStatus(302);
+        $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+    }
 }

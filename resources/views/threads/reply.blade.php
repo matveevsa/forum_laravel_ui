@@ -13,7 +13,7 @@
                         @csrf
                         <button class="btn btn-secondary" {{ $reply->isFavorited() ? 'disabled' : '' }}>
                             {{ $reply->favorites_count }} {{ Str::plural('favorite', $reply->favorites_count) }}
-                        </button>,
+                        </button>
                     </form>
                 </div>
             </div>
@@ -21,5 +21,15 @@
         <div class="card-body">
             {{ $reply->body }}
         </div>
+        @can('delete', $reply)
+            <div class="card-footer">
+                <form method="POST" action="{{ route('replies.destroy', $reply) }}">
+                    @csrf
+                    @method('DELETE')
+
+                    <button type='submit' class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </div>
+        @endcan
     </div>
 </div>
