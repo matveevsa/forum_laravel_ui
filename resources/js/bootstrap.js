@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Flash from './components/Flash.vue';
+import Reply from './components/Reply.vue';
 
 window._ = require('lodash');
 
@@ -22,7 +23,7 @@ window.flash = (message) => {
 const app = new Vue({
     el: '#app',
     components: {
-        'flash': Flash
+        'flash': Flash,
+        'reply': Reply,
     }
 });
-

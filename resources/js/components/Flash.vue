@@ -26,12 +26,10 @@
         },
         methods: {
             flash(message) {
-                if (this.message) {
-                    this.body = message;
-                    this.show = true;
+                this.body = message;
+                this.show = true;
 
-                    this.hide();
-                }
+                this.hide();
             },
 
             hide() {
