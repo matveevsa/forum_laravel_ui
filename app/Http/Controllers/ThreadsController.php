@@ -45,7 +45,8 @@ class ThreadsController extends Controller
 
         $thread = Thread::create($data);
 
-        return redirect(route('threads.show', [$thread->channel, $thread]));
+        return redirect(route('threads.show', [$thread->channel, $thread]))
+            ->with('flash', 'Your thread has been published!');
     }
 
     public function create()
@@ -56,7 +57,7 @@ class ThreadsController extends Controller
     public function destroy($channel, Thread $thread)
     {
         $this->authorize('delete', $thread);
-        
+
         $thread->delete();
 
         if (request()->wantsJson()) {

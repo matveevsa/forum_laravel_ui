@@ -7,10 +7,10 @@
             <div class="card mb-3">
                 <div class="card-header">
                     <div class="level">
-                        <dvi class="flex">
+                        <div class="flex">
                             <a href="{{ route('profile.show', $thread->creator) }}">{{ $thread->creator->name }}</a> posted:
                             {{ $thread->title }}
-                        </dvi>
+                        </div>
                         @can ('delete', $thread)
                             <form action="{{ route('threads.destroy', [$thread->channel, $thread]) }}" method="POST">
                                 @csrf
