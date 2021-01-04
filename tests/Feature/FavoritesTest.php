@@ -31,6 +31,17 @@ class FavoritesTest extends TestCase
         $this->assertCount(1, $reply->favorites);
     }
 
+    public function testAuthenticatedUserCanUnfavoriteReply()
+    {
+        $this->signIn();
+
+        $reply = create(Reply::class);
+
+        $reply->favorite();
+        $reply->unfavorite();
+        $this->assertCount(0, $reply->favorites);
+    }
+
     public function testAuthenticatedUserMayOnlyFavoriteReplyOnce()
     {
         $this->signIn();

@@ -10,12 +10,13 @@
                         said {{ $reply->created_at->diffForHumans() }}...
                     </h5>
                     <div>
-                        <form method="POST" action="{{ route('reply_favorite', $reply->id) }}">
+                        <favorite :reply="{{ $reply }}"></favorite>
+                        {{-- <form method="POST" action="{{ route('reply_favorite', $reply->id) }}">
                             @csrf
                             <button class="btn btn-secondary" {{ $reply->isFavorited() ? 'disabled' : '' }}>
                                 {{ $reply->favorites_count }} {{ Str::plural('favorite', $reply->favorites_count) }}
                             </button>
-                        </form>
+                        </form> --}}
                     </div>
                 </div>
             </div>

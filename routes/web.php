@@ -24,13 +24,14 @@ Route::post('threads/{thread}/replies', [RepliesController::class, 'store'])
 
 Route::post('replies/{reply}/favorites', [FavoritesController::class, 'store'])
     ->name('reply_favorite');
+Route::delete('replies/{reply}/favorites', [FavoritesController::class, 'destroy'])
+    ->name('favorites.delete');
 
 Route::get('profile/{user}', [ProfilesController::class, 'show'])
     ->name('profile.show');
 
 Route::patch('replies/{reply}', [RepliesController::class, 'update'])
     ->name('replies.update');
-
 Route::delete('replies/{reply}', [RepliesController::class, 'destroy'])
     ->name('replies.destroy');
 
