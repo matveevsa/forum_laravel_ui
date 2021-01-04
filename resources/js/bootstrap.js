@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Flash from './components/Flash.vue';
-import Reply from './components/Reply.vue';
+import Thread from './pages/Thread.vue';
 
 window._ = require('lodash');
 
@@ -20,10 +20,17 @@ window.flash = (message) => {
     window.events.$emit('flash', message);
 }
 
-const app = new Vue({
+Vue.component('thread-view', Thread);
+
+Vue.prototype.authorize = function (handler) {
+    const user = window.App.user;
+
+    return user ? handler(user) : false;
+}
+
+new Vue({
     el: '#app',
     components: {
         'flash': Flash,
-        'reply': Reply,
     }
 });
