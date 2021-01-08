@@ -1,5 +1,7 @@
 start:
 	php artisan serve
+watch:
+	npm run watch
 test:
 	php artisan test
 tinker:

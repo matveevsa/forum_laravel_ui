@@ -26,24 +26,7 @@
                     </div>
                 </div>
 
-                <replies :data="{{ $thread->replies }}" @remove="repliesCount--"></replies>
-
-                {{-- {{ $replies->links() }} --}}
-
-                @if (auth()->check())
-                <form action="{{ route('replies.store', $thread) }}" method="POST">
-                    @csrf
-                    <div class="form-group">
-                        <textarea name="body" class="form-control" placeholder="Have somthing to say?" rows="5"></textarea>
-                    </div>
-
-                    <button class="btn btn-primary">Submit</button>
-                </form>
-                @else
-                    <p class="text-center">
-                        Please <a href="{{ route('login') }}">sign in</a> to participate in this discussion
-                    </p>
-                @endif
+                <replies @added="repliesCount++" @remove="repliesCount--"></replies>
             </div>
             <div class="col-md-4">
                 <div class="card mb-3">

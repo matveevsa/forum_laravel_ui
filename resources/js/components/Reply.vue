@@ -5,7 +5,7 @@
                 <div class="level">
                     <h5>
                         <a :href="'/profile/' + data.owner.name" v-text="data.owner.name"></a>
-                        said {{ data.created_at }}...
+                        said <span v-text="ago"></span>
                     </h5>
 
                     <div v-if="signedIn">
@@ -35,6 +35,7 @@
 </template>
 <script>
     import Favorite from './Favorite.vue';
+    import moment from 'moment';
 
     export default {
         props: {
@@ -54,6 +55,10 @@
         },
 
         computed: {
+            ago() {
+                return moment(this.data.created_at).fromNow() + '...';
+            },
+
             signedIn() {
                 return window.App.signedIn;
             },
@@ -65,7 +70,7 @@
 
         methods: {
             update() {
-                axios.patch('/replies/' + this.data.id, {
+                axios.patch('/replies/' + this.id, {
                     body: this.body
                 });
 
@@ -75,9 +80,11 @@
             },
 
             destroy() {
-                axios.delete('/replies/' + this.data.id);
+                axios.delete('/replies/' + this.id, {
+                    body: this.body
+                });
 
-                this.$emit('deleted', this.data.id);
+                this.$emit('deleted', this.id);
             }
         }
     }

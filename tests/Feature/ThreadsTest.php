@@ -105,4 +105,15 @@ class ThreadsTest extends TestCase
 
         $this->assertEquals([3, 2, 0], array_column($response, 'replies_count'));
     }
+
+    public function testUserCanRequestAllRepliesForThread()
+    {
+        $thread = create(Thread::class);
+        create(Reply::class, ['thread_id' => $thread->id], 2);
+
+        $response = $this->get($thread->path() . '/replies')->json();
+
+        $this->assertCount(1, $response['data']);
+        $this->assertEquals(2, $response['total']);
+    }
 }

@@ -12,27 +12,29 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::resource('threads', ThreadsController::class)->except(['show', 'destroy']);
-Route::get('threads/{channel}', [ThreadsController::class, 'index']);
-Route::get('threads/{channel:slug}/{thread:id}', [ThreadsController::class, 'show'])
+Route::resource('/threads', ThreadsController::class)->except(['show', 'destroy']);
+Route::get('/threads/{channel}', [ThreadsController::class, 'index']);
+Route::get('/threads/{channel:slug}/{thread:id}', [ThreadsController::class, 'show'])
     ->name('threads.show');
-Route::delete('threads/{channel:slug}/{thread:id}', [ThreadsController::class, 'destroy'])
+Route::delete('/threads/{channel:slug}/{thread:id}', [ThreadsController::class, 'destroy'])
     ->name('threads.destroy');
 
-Route::post('threads/{thread}/replies', [RepliesController::class, 'store'])
+Route::get('/threads/{channel:slug}/{thread}/replies', [RepliesController::class, 'index'])
+    ->name('replies.index');
+Route::post('/threads/{channel:slug}/{thread}/replies', [RepliesController::class, 'store'])
     ->name('replies.store');
 
-Route::post('replies/{reply}/favorites', [FavoritesController::class, 'store'])
+Route::post('/replies/{reply}/favorites', [FavoritesController::class, 'store'])
     ->name('reply_favorite');
-Route::delete('replies/{reply}/favorites', [FavoritesController::class, 'destroy'])
+Route::delete('/replies/{reply}/favorites', [FavoritesController::class, 'destroy'])
     ->name('favorites.delete');
 
-Route::get('profile/{user}', [ProfilesController::class, 'show'])
+Route::get('/profile/{user}', [ProfilesController::class, 'show'])
     ->name('profile.show');
 
-Route::patch('replies/{reply}', [RepliesController::class, 'update'])
+Route::patch('/replies/{reply}', [RepliesController::class, 'update'])
     ->name('replies.update');
-Route::delete('replies/{reply}', [RepliesController::class, 'destroy'])
+Route::delete('/replies/{reply}', [RepliesController::class, 'destroy'])
     ->name('replies.destroy');
 
 

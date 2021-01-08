@@ -15,7 +15,7 @@ class ParticipateInFormTest extends TestCase
 
     public function testUnauthenticatedUserMayNotAddReply()
     {
-        $this->post('/threads/1/replies', [])->assertRedirect('login');
+        $this->post('/threads/quod/2/replies', [])->assertRedirect('login');
     }
 
     public function testAuthenticatedUserMayParticipateInForumThreads()
@@ -24,7 +24,7 @@ class ParticipateInFormTest extends TestCase
         $thread = create(Thread::class);
         $reply = make(Reply::class);
 
-        $this->post(route('replies.store', $thread), $reply->toArray());
+        $this->post(route('replies.store', [$thread->channel, $thread]), $reply->toArray());
 
         $this->get(route('threads.show', [$thread->channel, $thread]))
             ->assertSee($reply->body);
@@ -36,7 +36,7 @@ class ParticipateInFormTest extends TestCase
         $thread = create(Thread::class);
         $reply = make(Reply::class, ['body' => null]);
 
-        $this->post(route('replies.store', $thread), $reply->toArray())
+        $this->post(route('replies.store', [$thread->channel, $thread]), $reply->toArray())
             ->assertSessionHasErrors('body');
     }
 

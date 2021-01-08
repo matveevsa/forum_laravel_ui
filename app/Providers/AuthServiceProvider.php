@@ -31,7 +31,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::before(function () {
-            if (auth()->id() === 391) {
+            if (auth()->id() === 1) {
                 return true;
             }
         });

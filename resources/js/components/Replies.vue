@@ -1,33 +1,54 @@
 <template>
     <div>
-        <div v-for="(reply, i) in items" :key="i">
+        <div v-for="(reply, i) in items" :key="reply.id">
             <reply :data="reply" @deleted="remove(i)"></reply>
         </div>
+
+        <paginator :dataSet="dataSet" @changed="fetch"></paginator>
+
+        <new-reply @created="add"></new-reply>
     </div>
 </template>
 
 <script>
+import NewReply from './NewReply.vue';
 import Reply from './Reply.vue';
+import collection from '../mixins/Collection';
 
 export default {
-    components: { Reply },
+    components: { Reply, NewReply },
 
-    props: ['data'],
+    mixins: [collection],
 
     data() {
         return {
-            items: this.data
+            dataSet: false,
         }
     },
 
+    created() {
+        this.fetch();
+    },
+
     methods: {
-        remove(i) {
-            this.items.splice(i, 1);
+        fetch(page) {
+            axios.get(this.url(page))
+                .then(this.refresh);
+        },
 
-            this.$emit('remove');
+        url(page) {
+            if (!page) {
+                const query = location.search.match(/page=(\d+)/);
+                page = query ? query[1] : 1;
+            }
 
-            flash('Reply was deleted');
-        }
+            return `${location.pathname}/replies?page=${page}`;
+        },
+
+        refresh({ data }) {
+            this.dataSet = data;
+            this.items = data.data;
+        },
     }
 }
 </script>
