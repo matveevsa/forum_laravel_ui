@@ -61,14 +61,6 @@ class ThreadsTest extends TestCase
         $this->assertEquals(0, Activity::count());
     }
 
-    public function testRepliesThatAssociatedWithThread()
-    {
-        $reply = Reply::factory()->create(['thread_id' => $this->thread->id]);
-
-        $this->get(route('threads.show', [$this->thread->channel, $this->thread]))
-            ->assertSee($reply->body);
-    }
-
     public function testUserCanFilterThreadsAccordingChannel()
     {
         $channel = create(Channel::class);
@@ -106,6 +98,15 @@ class ThreadsTest extends TestCase
         $this->assertEquals([3, 2, 0], array_column($response, 'replies_count'));
     }
 
+    public function testUserCanFilterThreadsByUnanswered()
+    {
+        create(Reply::class, ['thread_id' => $this->thread->id]);
+
+        $response = $this->getJson('/threads?unanswered=1')->json();
+
+        $this->assertCount(1, $response);
+    }
+
     public function testUserCanRequestAllRepliesForThread()
     {
         $thread = create(Thread::class);
@@ -113,7 +114,7 @@ class ThreadsTest extends TestCase
 
         $response = $this->get($thread->path() . '/replies')->json();
 
-        $this->assertCount(1, $response['data']);
+        $this->assertCount(2, $response['data']);
         $this->assertEquals(2, $response['total']);
     }
 }

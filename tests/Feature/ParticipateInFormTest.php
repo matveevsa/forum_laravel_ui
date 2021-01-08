@@ -26,8 +26,8 @@ class ParticipateInFormTest extends TestCase
 
         $this->post(route('replies.store', [$thread->channel, $thread]), $reply->toArray());
 
-        $this->get(route('threads.show', [$thread->channel, $thread]))
-            ->assertSee($reply->body);
+        $this->assertDatabaseHas('replies', ['body' => $reply->body]);
+        $this->assertEquals(1, $thread->fresh()->replies_count);
     }
 
     public function testReplyRequiresBody()
@@ -59,7 +59,9 @@ class ParticipateInFormTest extends TestCase
         $reply = create(Reply::class, ['user_id' => auth()->id()]);
 
         $this->delete("/replies/{$reply->id}")->assertStatus(302);
+
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+        $this->assertEquals(0, $reply->thread->fresh()->replies_count);
     }
 
     public function testUnauthorizeUsersCannotUpdateReplies()

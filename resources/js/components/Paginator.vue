@@ -52,7 +52,7 @@ export default {
         },
 
         updateUrl() {
-                history.pushState(null, null, '?page=' + this.page);
+            history.pushState(null, null, '?page=' + this.page);
         },
     }
 }
