@@ -100,7 +100,9 @@ class ThreadsTest extends TestCase
 
     public function testUserCanFilterThreadsByUnanswered()
     {
-        create(Reply::class, ['thread_id' => $this->thread->id]);
+        $thread = create(Thread::class);
+
+        create(Reply::class, ['thread_id' => $thread->id]);
 
         $response = $this->getJson('/threads?unanswered=1')->json();
 
