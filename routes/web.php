@@ -4,6 +4,7 @@ use App\Http\Controllers\FavoritesController;
 use App\Http\Controllers\ProfilesController;
 use App\Http\Controllers\RepliesController;
 use App\Http\Controllers\ThreadsController;
+use App\Http\Controllers\ThreadSubscriptionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -23,6 +24,11 @@ Route::get('/threads/{channel:slug}/{thread}/replies', [RepliesController::class
     ->name('replies.index');
 Route::post('/threads/{channel:slug}/{thread}/replies', [RepliesController::class, 'store'])
     ->name('replies.store');
+Route::post(
+    '/threads/{channel:slug}/{thread}/subscriptions',
+    [ThreadSubscriptionController::class, 'store']
+)->middleware('auth')
+    ->name('subscriptions.store');
 
 Route::post('/replies/{reply}/favorites', [FavoritesController::class, 'store'])
     ->name('reply_favorite');
