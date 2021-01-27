@@ -35,6 +35,9 @@
                         <a href="{{ route('profile.show', $thread->creator) }}">
                             {{ $thread->creator->name }}
                         </a>, and currently has <span v-text="repliesCount"></span> {{ Str::plural('comment', $thread->replies_count) }}.
+                        <div class="mt-3">
+                            <subscribe-button active="{{ $thread->isSubscribedTo }}"></subscribe-button>
+                        </div>
                     </div>
                 </div>
             </div>
